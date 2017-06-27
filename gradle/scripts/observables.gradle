@@ -1,0 +1,5 @@
+dependencies {
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:0.14'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.14'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-rx2:0.14'
+}
