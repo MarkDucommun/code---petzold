@@ -156,6 +156,10 @@ class CircuitTest {
 
         switchOne.toggle()
 
+        assertThat(bulb.powered).isFalse()
+
+        switchTwo.toggle()
+
         assertThat(bulb.powered).isTrue()
     }
 

@@ -6,6 +6,10 @@ import io.ducommun.code.results.Success
 
 class Battery : VoltageSource, VoltageSink {
 
+    override fun power() {
+        output?.powerOn()
+    }
+
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
         if (output != null) return Failure(ConnectionError.AlreadyConnected)
         other.applyCurrent(current)
@@ -23,7 +27,6 @@ class Battery : VoltageSource, VoltageSink {
     override fun applyCurrent(appliedCurrent: Current?) {
         if (appliedCurrent != null && appliedCurrent == current) {
             appliedCurrent.complete = true
-            output?.powerOn()
             this.appliedCurrent = appliedCurrent
         }
     }

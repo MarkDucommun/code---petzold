@@ -5,7 +5,7 @@ class Ground : VoltageSink {
     override fun applyCurrent(appliedCurrent: Current?) {
         current = appliedCurrent
         appliedCurrent?.complete = true
-        current?.source
+        current?.source?.power()
     }
 
     override fun removeCurrent() {
@@ -19,5 +19,5 @@ class Ground : VoltageSink {
 
     override fun powerOff() {}
 
-    override val powered: Boolean get() = current != null
+    override val powered: Boolean get() = current?.complete ?: false
 }

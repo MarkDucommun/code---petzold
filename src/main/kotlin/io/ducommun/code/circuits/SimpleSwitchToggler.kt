@@ -34,7 +34,5 @@ class SimpleSwitchToggler(
         electroMagnet.disconnect()
     }
 
-    private var poweredState: Boolean = false
-
-    override val powered: Boolean get() = poweredState
+    override val powered: Boolean get() = electroMagnet.powered
 }

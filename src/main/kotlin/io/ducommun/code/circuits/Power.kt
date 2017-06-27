@@ -5,6 +5,10 @@ import io.ducommun.code.results.Success
 
 class Power : VoltageSource {
 
+    override fun power() {
+        output?.powerOn()
+    }
+
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
         output = other
         other.applyCurrent(current)

@@ -16,9 +16,7 @@ open class BasicComponent : Connectible {
 
     override fun disconnect(): Result<DisconnectionError, Unit> {
         if (output == null) return Failure(DisconnectionError.NotConnected)
-        output?.powerOff()
-        output?.removeCurrent()
-        if (output is Receiver) (output as Receiver).disconnect()
+        removeCurrent()
         return Success(Unit)
     }
 
@@ -30,23 +28,20 @@ open class BasicComponent : Connectible {
     override fun removeCurrent() {
         current = null
         output?.removeCurrent()
+        powerOff()
     }
 
     override fun powerOn() {
-        poweredState = true
         output?.powerOn()
     }
 
     override fun powerOff() {
-        poweredState = false
         output?.powerOff()
     }
-
-    protected var poweredState: Boolean = false
 
     protected var current: Current? = null
 
     protected var output: Pluggable? = null
 
-    override val powered: Boolean get() = poweredState
+    override val powered: Boolean get() = current?.complete ?: false
 }
