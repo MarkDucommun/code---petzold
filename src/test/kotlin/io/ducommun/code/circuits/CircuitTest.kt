@@ -179,4 +179,53 @@ class CircuitTest {
 
         assertThat(bulb.powered).isFalse()
     }
+
+    @Test
+    fun `maybe this is an AND gate?`() {
+
+        val powerOne = Power()
+        val powerTwo = Power()
+        val powerThree = Power()
+
+        val switchOne = SimpleSwitch(closedInitially = false)
+        val switchTwo = SimpleSwitch(closedInitially = false)
+        val switchThree = SimpleSwitch(closedInitially = false)
+        val switchFour = SimpleSwitch(closedInitially = false)
+
+        val switchTogglerOne = SimpleSwitchToggler(switchOne)
+        val switchTogglerTwo = SimpleSwitchToggler(switchTwo)
+
+        val bulb = Bulb()
+
+        val groundOne = Ground()
+        val groundTwo = Ground()
+        val groundThree = Ground()
+
+        powerOne.connect(switchThree)
+        switchThree.connect(switchTogglerOne)
+        switchTogglerOne.connect(groundOne)
+
+        powerTwo.connect(switchFour)
+        switchFour.connect(switchTogglerTwo)
+        switchTogglerTwo.connect(groundTwo)
+
+        powerThree.connect(switchOne)
+        switchOne.connect(switchTwo)
+        switchTwo.connect(bulb)
+        bulb.connect(groundThree)
+
+        assertThat(bulb.powered).isFalse()
+
+        switchThree.toggle()
+
+        assertThat(bulb.powered).isFalse()
+
+        switchFour.toggle()
+
+        assertThat(bulb.powered).isTrue()
+
+        switchThree.toggle()
+
+        assertThat(bulb.powered).isFalse()
+    }
 }
