@@ -2,9 +2,10 @@ package io.ducommun.code.circuits
 
 import io.ducommun.code.results.Result
 
-class AndGate : TwoWayJoin {
+class OrGate : TwoWayJoin {
 
-    private val power: VoltageSource = Power()
+    private val powerOne: VoltageSource = Power()
+    private val powerTwo: VoltageSource = Power()
 
     private val switchOne: MutableSwitch = SimpleSwitch(closedInitially = false)
     private val switchTwo: MutableSwitch = SimpleSwitch(closedInitially = false)
@@ -12,18 +13,25 @@ class AndGate : TwoWayJoin {
     override val connectionOne: Pluggable = BetterSwitchToggler(switch = switchOne, pluggedIn = Ground())
     override val connectionTwo: Pluggable = BetterSwitchToggler(switch = switchTwo, pluggedIn = Ground())
 
+    private val joiner = Joiner()
+
     init {
-        power.connect(switchOne)
-        switchOne.connect(switchTwo)
+        powerOne.connect(switchOne)
+        switchOne.connect(joiner.connectionOne)
+
+        powerTwo.connect(switchTwo)
+        switchTwo.connect(joiner.connectionTwo)
     }
 
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
-        return switchTwo.connect(other)
+        return joiner.connect(other)
     }
 
     override fun disconnect(): Result<DisconnectionError, Unit> {
-        return switchTwo.disconnect()
+        return joiner.disconnect()
     }
 
-    override val powered: Boolean get() = switchTwo.powered
+    override val powered: Boolean
+        get() = joiner.powered
+
 }

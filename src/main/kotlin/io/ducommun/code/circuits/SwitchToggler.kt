@@ -7,5 +7,7 @@ interface SwitchToggler : Connectible {
 
 interface ImmutableSwitchToggler : Pluggable {
 
+    val switch: MutableSwitch
+
     val pluggedIn: Pluggable
 }

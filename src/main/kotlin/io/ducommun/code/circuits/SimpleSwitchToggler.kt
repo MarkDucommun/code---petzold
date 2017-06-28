@@ -37,8 +37,8 @@ class SimpleSwitchToggler(
     override val powered: Boolean get() = electroMagnet.powered
 }
 
-class SimpleSwitchToggler(
-        override var switch: MutableSwitch,
+class BetterSwitchToggler(
+        override val switch: MutableSwitch,
         override val pluggedIn: Pluggable
 ) : ImmutableSwitchToggler {
 
@@ -54,22 +54,15 @@ class SimpleSwitchToggler(
 
     private val electroMagnet: Connectible = BasicComponent()
 
+    // probably should make the constructor private
     init { electroMagnet.connect(pluggedIn) }
-
-    override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
-        return electroMagnet.connect(other)
-    }
-
-    override fun disconnect(): Result<DisconnectionError, Unit> {
-        return electroMagnet.disconnect()
-    }
 
     override fun applyCurrent(appliedCurrent: Current?) {
         electroMagnet.applyCurrent(appliedCurrent)
     }
 
     override fun removeCurrent() {
-        electroMagnet.disconnect()
+        electroMagnet.removeCurrent()
     }
 
     override val powered: Boolean get() = electroMagnet.powered

@@ -3,7 +3,7 @@ package io.ducommun.code.circuits
 import org.assertj.core.api.KotlinAssertions.assertThat
 import org.junit.Test
 
-class PoweredAndGateTest {
+class AndGateTest {
 
     @Test
     fun `the AND gate works`() {
@@ -14,7 +14,7 @@ class PoweredAndGateTest {
         val switchOne = SimpleSwitch(closedInitially = false)
         val switchTwo = SimpleSwitch(closedInitially = false)
 
-        val andGate = PoweredAndGate()
+        val andGate = AndGate()
 
         val bulb = Bulb()
 
