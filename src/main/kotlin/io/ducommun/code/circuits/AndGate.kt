@@ -4,18 +4,13 @@ import io.ducommun.code.results.Result
 
 interface AndGate {
 
-    fun connectInOne(other: Receiver): Result<ConnectionError, Unit>
+    val connectionOne: Connectible
 
-    fun disconnectInOne(): Result<DisconnectionError, Unit>
+    val connectionTwo: Connectible
 
-    fun connectInTwo(other: Receiver): Result<ConnectionError, Unit>
+    fun connect(other: Pluggable): Result<ConnectionError, Unit>
 
-    fun disconnectInTwo(): Result<DisconnectionError, Unit>
-
-    fun connectOut(other: Pluggable): Result<ConnectionError, Unit>
-
-    fun disconnectOut(): Result<DisconnectionError, Unit>
+    fun disconnect(): Result<DisconnectionError, Unit>
 
     val powered: Boolean
 }
-

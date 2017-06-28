@@ -2,5 +2,10 @@ package io.ducommun.code.circuits
 
 interface SwitchToggler : Connectible {
 
-    var switch: Switch
+    var switch: MutableSwitch
+}
+
+interface ImmutableSwitchToggler : Pluggable {
+
+    val pluggedIn: Pluggable
 }

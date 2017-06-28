@@ -1,22 +1,15 @@
 package io.ducommun.code.circuits
 
-import io.ducommun.code.results.Result
-
-class SimpleSwitch(closedInitially: Boolean = false) : MutableSwitch {
+class PermanentSwitch(
+        closedInitially: Boolean = false,
+        override val pluggedIn: Pluggable
+) : ImmutableReceiverSwitch {
 
     val incomingConnectible: Connectible = BasicComponent()
 
     val outgoingConnectible: Connectible = BasicComponent()
 
     init { if (closedInitially) incomingConnectible.connect(outgoingConnectible) }
-
-    override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
-        return outgoingConnectible.connect(other)
-    }
-
-    override fun disconnect(): Result<DisconnectionError, Unit> {
-        return outgoingConnectible.disconnect()
-    }
 
     override fun applyCurrent(appliedCurrent: Current?) {
         incomingConnectible.applyCurrent(appliedCurrent)
