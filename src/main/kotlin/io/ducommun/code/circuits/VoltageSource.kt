@@ -1,6 +1,6 @@
 package io.ducommun.code.circuits
 
-interface VoltageSource : Receiver {
+interface VoltageSource {
 
     fun power()
 }

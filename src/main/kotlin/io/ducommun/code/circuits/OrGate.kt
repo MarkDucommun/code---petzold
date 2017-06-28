@@ -2,10 +2,10 @@ package io.ducommun.code.circuits
 
 import io.ducommun.code.results.Result
 
-class OrGate : TwoWayJoin {
+class OrGate : Join {
 
-    private val powerOne: VoltageSource = Power()
-    private val powerTwo: VoltageSource = Power()
+    private val powerOne: SingleVoltageSource = Power()
+    private val powerTwo: SingleVoltageSource = Power()
 
     private val switchOne: MutableSwitch = SimpleSwitch(closedInitially = false)
     private val switchTwo: MutableSwitch = SimpleSwitch(closedInitially = false)

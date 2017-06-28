@@ -3,7 +3,7 @@ package io.ducommun.code.circuits
 import io.ducommun.code.results.Result
 import io.ducommun.code.results.Success
 
-class Power : VoltageSource {
+class Power : SingleVoltageSource {
 
     override fun power() {
         output?.powerOn()

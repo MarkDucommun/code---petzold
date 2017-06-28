@@ -4,7 +4,7 @@ import io.ducommun.code.results.Failure
 import io.ducommun.code.results.Result
 import io.ducommun.code.results.Success
 
-class Battery : VoltageSource, VoltageSink {
+class Battery : SingleVoltageSource, VoltageSink {
 
     override fun power() {
         output?.powerOn()

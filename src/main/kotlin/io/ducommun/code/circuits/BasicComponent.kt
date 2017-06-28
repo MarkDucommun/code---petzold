@@ -1,6 +1,5 @@
 package io.ducommun.code.circuits
 
-import com.sun.org.apache.xpath.internal.operations.Bool
 import io.ducommun.code.results.Failure
 import io.ducommun.code.results.Result
 import io.ducommun.code.results.Success

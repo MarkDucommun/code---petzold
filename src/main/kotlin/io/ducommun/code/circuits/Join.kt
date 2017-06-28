@@ -2,7 +2,7 @@ package io.ducommun.code.circuits
 
 import io.ducommun.code.results.Result
 
-interface TwoWayJoin {
+interface Join {
 
     val connectionOne: Pluggable
 

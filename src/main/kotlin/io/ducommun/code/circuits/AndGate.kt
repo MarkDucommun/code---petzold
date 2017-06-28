@@ -2,9 +2,9 @@ package io.ducommun.code.circuits
 
 import io.ducommun.code.results.Result
 
-class AndGate : TwoWayJoin {
+class AndGate : Join {
 
-    private val power: VoltageSource = Power()
+    private val power: SingleVoltageSource = Power()
 
     private val switchOne: MutableSwitch = SimpleSwitch(closedInitially = false)
     private val switchTwo: MutableSwitch = SimpleSwitch(closedInitially = false)

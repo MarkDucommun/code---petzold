@@ -3,7 +3,7 @@ package io.ducommun.code.circuits
 import io.ducommun.code.results.Result
 import io.ducommun.code.results.Success
 
-class Joiner : TwoWayJoin, VoltageSource {
+class Joiner : Join, SingleVoltageSource {
 
     override fun power() {
         incomingCurrentOne?.source?.power()
