@@ -1,5 +1,9 @@
 package io.ducommun.code.circuits
 
+import io.ducommun.code.circuits.errors.ConnectionError
+import io.ducommun.code.circuits.errors.ConnectionError.*
+import io.ducommun.code.circuits.errors.DisconnectionError
+import io.ducommun.code.circuits.errors.DisconnectionError.NotConnected
 import io.ducommun.code.results.Failure
 import io.ducommun.code.results.Result
 import io.ducommun.code.results.Success
@@ -7,14 +11,14 @@ import io.ducommun.code.results.Success
 open class BasicComponent : Connectible {
 
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
-        if (output != null) return Failure(ConnectionError.AlreadyConnected)
+        if (output != null) return Failure(AlreadyConnected)
         output = other
         other.applyCurrent(current)
         return Success(Unit)
     }
 
     override fun disconnect(): Result<DisconnectionError, Unit> {
-        if (output == null) return Failure(DisconnectionError.NotConnected)
+        if (output == null) return Failure(NotConnected)
         removeCurrent()
         return Success(Unit)
     }

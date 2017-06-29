@@ -1,5 +1,7 @@
 package io.ducommun.code.circuits
 
+import io.ducommun.code.circuits.errors.ConnectionError
+import io.ducommun.code.circuits.errors.DisconnectionError
 import io.ducommun.code.results.Result
 
 class SimpleSwitch(closedInitially: Boolean = false) : MutableSwitch {

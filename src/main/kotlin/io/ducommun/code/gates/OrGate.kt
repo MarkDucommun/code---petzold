@@ -1,5 +1,10 @@
-package io.ducommun.code.circuits
+package io.ducommun.code.gates
 
+import io.ducommun.code.circuits.*
+import io.ducommun.code.circuits.errors.ConnectionError
+import io.ducommun.code.circuits.errors.DisconnectionError
+import io.ducommun.code.junctions.Join
+import io.ducommun.code.junctions.SimpleJoin
 import io.ducommun.code.results.Result
 
 class OrGate : Join {
@@ -13,7 +18,7 @@ class OrGate : Join {
     override val connectionOne: Pluggable = BetterSwitchToggler(switch = switchOne, pluggedIn = Ground())
     override val connectionTwo: Pluggable = BetterSwitchToggler(switch = switchTwo, pluggedIn = Ground())
 
-    private val joiner = Joiner()
+    private val joiner = SimpleJoin()
 
     init {
         powerOne.connect(switchOne)

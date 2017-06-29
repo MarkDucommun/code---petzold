@@ -1,9 +1,12 @@
-package io.ducommun.code.circuits
+package io.ducommun.code.junctions
 
+import io.ducommun.code.circuits.*
+import io.ducommun.code.circuits.errors.ConnectionError
+import io.ducommun.code.circuits.errors.DisconnectionError
 import io.ducommun.code.results.Result
 import io.ducommun.code.results.Success
 
-class Joiner : Join, SingleVoltageSource {
+class SimpleJoin : Join, SingleVoltageSource {
 
     override fun power() {
         incomingCurrentOne?.source?.power()

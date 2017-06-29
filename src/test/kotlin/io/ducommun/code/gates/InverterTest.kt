@@ -1,5 +1,10 @@
-package io.ducommun.code.circuits
+package io.ducommun.code.gates
 
+import io.ducommun.code.circuits.Bulb
+import io.ducommun.code.circuits.Ground
+import io.ducommun.code.circuits.Power
+import io.ducommun.code.circuits.SimpleSwitch
+import io.ducommun.code.gates.Inverter
 import org.assertj.core.api.KotlinAssertions.assertThat
 import org.junit.Test
 

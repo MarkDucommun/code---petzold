@@ -1,11 +1,12 @@
-package io.ducommun.code.circuits
+package io.ducommun.code.junctions
 
+import io.ducommun.code.circuits.*
 import org.assertj.core.api.KotlinAssertions.assertThat
 import org.junit.Before
 import org.junit.Test
 
 
-class JoinerTest {
+class SimpleJoinTest {
 
     val powerOne = Power()
     val powerTwo = Power()
@@ -13,7 +14,7 @@ class JoinerTest {
     val switchOne = SimpleSwitch(closedInitially = false)
     val switchTwo = SimpleSwitch(closedInitially = false)
 
-    val joiner = Joiner()
+    val joiner = SimpleJoin()
 
     val bulb = Bulb()
 

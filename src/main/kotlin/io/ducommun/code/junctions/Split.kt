@@ -1,5 +1,8 @@
-package io.ducommun.code.circuits
+package io.ducommun.code.junctions
 
+import io.ducommun.code.circuits.Pluggable
+import io.ducommun.code.circuits.errors.ConnectionError
+import io.ducommun.code.circuits.errors.DisconnectionError
 import io.ducommun.code.results.Result
 
 interface Split : Pluggable {

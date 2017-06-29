@@ -1,4 +1,4 @@
-package io.ducommun.code.circuits
+package io.ducommun.code.circuits.errors
 
 import io.ducommun.code.results.WithMessage
 

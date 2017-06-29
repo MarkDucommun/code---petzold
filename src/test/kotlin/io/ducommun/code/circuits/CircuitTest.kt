@@ -1,6 +1,8 @@
 package io.ducommun.code.circuits
 
 import io.ducommun.code.*
+import io.ducommun.code.circuits.errors.ConnectionError
+import io.ducommun.code.circuits.errors.DisconnectionError
 import org.assertj.core.api.KotlinAssertions.assertThat
 import org.junit.Test
 

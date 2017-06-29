@@ -1,5 +1,6 @@
-package io.ducommun.code.circuits
+package io.ducommun.code.junctions
 
+import io.ducommun.code.circuits.*
 import org.assertj.core.api.KotlinAssertions.assertThat
 import org.junit.Before
 import org.junit.Test
