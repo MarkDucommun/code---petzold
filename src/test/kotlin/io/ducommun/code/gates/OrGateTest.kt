@@ -13,8 +13,8 @@ class OrGateTest {
     val powerOne = Power()
     val powerTwo = Power()
 
-    val switchOne = SimpleSwitch(closedInitially = true)
-    val switchTwo = SimpleSwitch(closedInitially = true)
+    val switchOne = SimpleSwitch(closedInitially = false)
+    val switchTwo = SimpleSwitch(closedInitially = false)
 
     val orGate = OrGate()
 
