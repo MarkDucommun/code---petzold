@@ -13,7 +13,7 @@ class Battery : SingleVoltageSource, VoltageSink {
     }
 
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
-        if (output != null) return Failure(ConnectionError.AlreadyConnected)
+        if (output != null) return Failure(ConnectionError.ReceiverAlreadyConnected)
         other.applyCurrent(current)
         output = other
         return Success(Unit)
@@ -26,11 +26,12 @@ class Battery : SingleVoltageSource, VoltageSink {
         return Success(Unit)
     }
 
-    override fun applyCurrent(appliedCurrent: Current?) {
+    override fun applyCurrent(appliedCurrent: Current?): Result<ConnectionError, Unit> {
         if (appliedCurrent != null && appliedCurrent == current) {
             appliedCurrent.complete = true
             this.appliedCurrent = appliedCurrent
         }
+        return Success(Unit)
     }
 
     override fun removeCurrent() {

@@ -1,7 +1,8 @@
 package io.ducommun.code.circuits
 
 import io.ducommun.code.circuits.errors.ConnectionError
-import io.ducommun.code.circuits.errors.ConnectionError.AlreadyConnected
+import io.ducommun.code.circuits.errors.ConnectionError.PluggableAlreadyConnected
+import io.ducommun.code.circuits.errors.ConnectionError.ReceiverAlreadyConnected
 import io.ducommun.code.circuits.errors.DisconnectionError
 import io.ducommun.code.circuits.errors.DisconnectionError.NotConnected
 import io.ducommun.code.failsWithReason
@@ -29,19 +30,13 @@ class BasicComponentTest {
     @Test
     fun `connect - cannot have two components plugged into it`() {
 
-        subject.connect(ground).flatMap { subject.connect(Bulb()) } failsWithReason AlreadyConnected
+        subject.connect(ground).flatMap { subject.connect(Bulb()) } failsWithReason ReceiverAlreadyConnected
     }
 
     @Test
     fun `disconnect - a component can be disconnected from it if it has been plugged in`() {
 
-        val result = subject.connect(ground)
-                .mapError<ConnectionError, DisconnectionError, Unit> { NotConnected }
-                .flatMap<DisconnectionError, Unit, Unit> {
-                    subject.disconnect()
-                }
-
-        assertThat(result).succeeded()
+        subject.connect(ground).succeedsAnd { assertThat(subject.disconnect()).succeeded() }
     }
 
     @Test
@@ -59,8 +54,26 @@ class BasicComponentTest {
     @Test
     fun `apply current - does not work when it has a current`() {
 
-        power.connect(subject).succeedsAnd {
-            Power().connect(subject).failsWithReason()
-        }
+        power.connect(subject).succeedsAnd { Power().connect(subject).failsWithReason(PluggableAlreadyConnected) }
+    }
+
+    @Test
+    fun `apply current - does not work when something down the circuit has a current`() {
+
+        val other = BasicComponent()
+
+        subject.connect(other)
+
+        other.applyCurrent(SimpleCurrent(Power()))
+
+        power.connect(subject).failsWithReason(PluggableAlreadyConnected)
+    }
+
+    @Test
+    fun `remove current - works when there is a current to remove`() {
+
+        power.connect(subject)
+
+        assertThat(power.disconnect()).succeeded()
     }
 }

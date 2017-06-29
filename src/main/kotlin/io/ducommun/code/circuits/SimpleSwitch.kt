@@ -20,8 +20,8 @@ class SimpleSwitch(closedInitially: Boolean = false) : MutableSwitch {
         return outgoingConnectible.disconnect()
     }
 
-    override fun applyCurrent(appliedCurrent: Current?) {
-        incomingConnectible.applyCurrent(appliedCurrent)
+    override fun applyCurrent(appliedCurrent: Current?) : Result<ConnectionError, Unit> {
+        return incomingConnectible.applyCurrent(appliedCurrent)
     }
 
     override fun removeCurrent() {

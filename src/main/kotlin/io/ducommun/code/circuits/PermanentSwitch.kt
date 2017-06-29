@@ -1,5 +1,8 @@
 package io.ducommun.code.circuits
 
+import io.ducommun.code.circuits.errors.ConnectionError
+import io.ducommun.code.results.Result
+
 class PermanentSwitch(
         closedInitially: Boolean = false,
         override val pluggedIn: Pluggable
@@ -11,8 +14,8 @@ class PermanentSwitch(
 
     init { if (closedInitially) incomingConnectible.connect(outgoingConnectible) }
 
-    override fun applyCurrent(appliedCurrent: Current?) {
-        incomingConnectible.applyCurrent(appliedCurrent)
+    override fun applyCurrent(appliedCurrent: Current?) : Result<ConnectionError, Unit> {
+        return incomingConnectible.applyCurrent(appliedCurrent)
     }
 
     override fun removeCurrent() {

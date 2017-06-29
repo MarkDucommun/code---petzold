@@ -28,8 +28,8 @@ class SimpleSwitchToggler(
         return electroMagnet.disconnect()
     }
 
-    override fun applyCurrent(appliedCurrent: Current?) {
-        electroMagnet.applyCurrent(appliedCurrent)
+    override fun applyCurrent(appliedCurrent: Current?) : Result<ConnectionError, Unit> {
+        return electroMagnet.applyCurrent(appliedCurrent)
     }
 
     override fun removeCurrent() {

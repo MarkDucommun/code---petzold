@@ -31,7 +31,7 @@ class CircuitTest {
 
         battery.connect(battery)
 
-        battery.connect(Bulb()) failsWithReason ConnectionError.AlreadyConnected
+        battery.connect(Bulb()) failsWithReason ConnectionError.ReceiverAlreadyConnected
     }
 
     @Test
@@ -41,7 +41,7 @@ class CircuitTest {
 
         subject.connect(Bulb())
 
-        subject.connect(Bulb()) failsWithReason ConnectionError.AlreadyConnected
+        subject.connect(Bulb()) failsWithReason ConnectionError.ReceiverAlreadyConnected
     }
 
     @Test
@@ -51,7 +51,7 @@ class CircuitTest {
 
         subject.connect(subject)
 
-        subject.connect(Bulb()) failsWithReason ConnectionError.AlreadyConnected
+        subject.connect(Bulb()) failsWithReason ConnectionError.ReceiverAlreadyConnected
     }
 
     @Test
@@ -61,7 +61,7 @@ class CircuitTest {
 
         battery.connect(battery)
 
-        battery.connect(Bulb()) failsWithReason ConnectionError.AlreadyConnected
+        battery.connect(Bulb()) failsWithReason ConnectionError.ReceiverAlreadyConnected
     }
 
     @Test

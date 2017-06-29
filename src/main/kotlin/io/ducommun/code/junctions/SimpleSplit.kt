@@ -30,12 +30,13 @@ class SimpleSplit : Split {
     private var outputOne: Pluggable? = null
     private var outputTwo: Pluggable? = null
 
-    override fun applyCurrent(appliedCurrent: Current?) {
+    override fun applyCurrent(appliedCurrent: Current?) : Result<ConnectionError, Unit> {
         incomingCurrent = appliedCurrent
         if (incomingCurrent != null) {
             outputOne?.applyCurrent(outgoingCurrentOne)
             outputTwo?.applyCurrent(outgoingCurrentTwo)
         }
+        return Success(Unit)
     }
 
     override fun removeCurrent() {

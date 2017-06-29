@@ -15,7 +15,9 @@ class Inverter : Connectible {
 
     private val electroMagnet = BetterSwitchToggler(switch = switch, pluggedIn = ground)
 
-    init { power.connect(switch) }
+    init {
+        power.connect(switch)
+    }
 
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
         return switch.connect(other)
@@ -25,8 +27,8 @@ class Inverter : Connectible {
         return switch.disconnect()
     }
 
-    override fun applyCurrent(appliedCurrent: Current?) {
-        electroMagnet.applyCurrent(appliedCurrent)
+    override fun applyCurrent(appliedCurrent: Current?): Result<ConnectionError, Unit> {
+        return electroMagnet.applyCurrent(appliedCurrent)
     }
 
     override fun removeCurrent() {

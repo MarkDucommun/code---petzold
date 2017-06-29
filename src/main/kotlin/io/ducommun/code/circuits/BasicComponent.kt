@@ -1,7 +1,8 @@
 package io.ducommun.code.circuits
 
 import io.ducommun.code.circuits.errors.ConnectionError
-import io.ducommun.code.circuits.errors.ConnectionError.*
+import io.ducommun.code.circuits.errors.ConnectionError.PluggableAlreadyConnected
+import io.ducommun.code.circuits.errors.ConnectionError.ReceiverAlreadyConnected
 import io.ducommun.code.circuits.errors.DisconnectionError
 import io.ducommun.code.circuits.errors.DisconnectionError.NotConnected
 import io.ducommun.code.results.Failure
@@ -11,7 +12,7 @@ import io.ducommun.code.results.Success
 open class BasicComponent : Connectible {
 
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
-        if (output != null) return Failure(AlreadyConnected)
+        if (output != null) return Failure(ReceiverAlreadyConnected)
         output = other
         other.applyCurrent(current)
         return Success(Unit)
@@ -23,9 +24,10 @@ open class BasicComponent : Connectible {
         return Success(Unit)
     }
 
-    override fun applyCurrent(appliedCurrent: Current?) {
+    override fun applyCurrent(appliedCurrent: Current?): Result<ConnectionError, Unit> {
+        if (current != null) return Failure(PluggableAlreadyConnected)
         current = appliedCurrent
-        output?.applyCurrent(appliedCurrent)
+        return output?.applyCurrent(appliedCurrent) ?: Success(Unit)
     }
 
     override fun removeCurrent() {
