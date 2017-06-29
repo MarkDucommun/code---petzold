@@ -8,15 +8,15 @@ import org.assertj.core.api.KotlinAssertions.assertThat
 import org.junit.Before
 import org.junit.Test
 
-class OrGateTest {
+class NandGateTest {
 
     val powerOne = Power()
     val powerTwo = Power()
 
-    val switchOne = SimpleSwitch(closedInitially = true)
-    val switchTwo = SimpleSwitch(closedInitially = true)
+    val switchOne = SimpleSwitch(closedInitially = false)
+    val switchTwo = SimpleSwitch(closedInitially = false)
 
-    val orGate = OrGate()
+    val orGate = NandGate()
 
     val bulb = Bulb()
 
@@ -35,49 +35,38 @@ class OrGateTest {
     }
 
     @Test
-    fun `one side powered on powers the output`() {
-
-        assertThat(bulb.powered).isFalse()
-
-        switchOne.toggle()
+    fun `one side powered on still powers the output`() {
 
         assertThat(bulb.powered).isTrue()
 
         switchOne.toggle()
 
-        assertThat(bulb.powered).isFalse()
+        assertThat(bulb.powered).isTrue()
     }
 
     @Test
-    fun `the other side powered on powers the output`() {
-
-        assertThat(bulb.powered).isFalse()
-
-        switchTwo.toggle()
+    fun `the other side still powered on powers the output`() {
 
         assertThat(bulb.powered).isTrue()
 
         switchTwo.toggle()
 
-        assertThat(bulb.powered).isFalse()
+        assertThat(bulb.powered).isTrue()
     }
 
     @Test
-    fun `both sides powered on powers the output`() {
-
-        assertThat(bulb.powered).isFalse()
-
-        switchOne.toggle()
-        switchTwo.toggle()
-
-        assertThat(bulb.powered).isTrue()
-
-        switchTwo.toggle()
+    fun `both sides powered on powers off the output`() {
 
         assertThat(bulb.powered).isTrue()
 
         switchOne.toggle()
+        switchTwo.toggle()
 
         assertThat(bulb.powered).isFalse()
+
+        switchTwo.toggle()
+        switchOne.toggle()
+
+        assertThat(bulb.powered).isTrue()
     }
 }

@@ -30,10 +30,11 @@ open class BasicComponent : Connectible {
         return output?.applyCurrent(appliedCurrent) ?: Success(Unit)
     }
 
-    override fun removeCurrent() {
+    override fun removeCurrent(): Result<DisconnectionError, Unit> {
         current = null
         output?.removeCurrent()
         powerOff()
+        return Success(Unit)
     }
 
     override fun powerOn() {

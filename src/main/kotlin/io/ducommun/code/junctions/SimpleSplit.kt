@@ -39,11 +39,12 @@ class SimpleSplit : Split {
         return Success(Unit)
     }
 
-    override fun removeCurrent() {
+    override fun removeCurrent(): Result<DisconnectionError, Unit> {
         incomingCurrent = null
         outputOne?.removeCurrent()
         outputTwo?.removeCurrent()
         powerOff()
+        return Success(Unit)
     }
 
     override fun powerOn() {}

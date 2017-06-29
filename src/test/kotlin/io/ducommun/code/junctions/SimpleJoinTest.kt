@@ -34,6 +34,8 @@ class SimpleJoinTest {
     @Test
     fun `it powers on when one side is powered`() {
 
+        assertThat(bulb.powered).isFalse()
+
         switchOne.toggle()
 
         assertThat(bulb.powered).isTrue()
@@ -41,6 +43,8 @@ class SimpleJoinTest {
 
     @Test
     fun `it powers on when the other side is powered`() {
+
+        assertThat(bulb.powered).isFalse()
 
         switchTwo.toggle()
 
@@ -50,6 +54,8 @@ class SimpleJoinTest {
     @Test
     fun `it powers on when both sides are powered`() {
 
+        assertThat(bulb.powered).isFalse()
+
         switchOne.toggle()
         switchTwo.toggle()
 
@@ -58,6 +64,8 @@ class SimpleJoinTest {
 
     @Test
     fun `it doesnt power off when one of two sides is toggled off`() {
+
+        assertThat(bulb.powered).isFalse()
 
         switchOne.toggle()
         switchTwo.toggle()
@@ -73,6 +81,8 @@ class SimpleJoinTest {
     @Test
     fun `it doesnt power off when the other of two sides is toggled off`() {
 
+        assertThat(bulb.powered).isFalse()
+
         switchOne.toggle()
         switchTwo.toggle()
 
@@ -85,6 +95,8 @@ class SimpleJoinTest {
 
     @Test
     fun `it does power off`() {
+
+        assertThat(bulb.powered).isFalse()
 
         switchOne.toggle()
         switchTwo.toggle()
@@ -100,6 +112,8 @@ class SimpleJoinTest {
 
     @Test
     fun `power does not transmit if the circuit is not complete`() {
+
+        assertThat(bulb.powered).isFalse()
 
         switchOne.toggle()
         switchTwo.toggle()

@@ -1,13 +1,10 @@
 package io.ducommun.code.circuits
 
-import io.ducommun.code.circuits.errors.ConnectionError
 import io.ducommun.code.circuits.errors.ConnectionError.PluggableAlreadyConnected
 import io.ducommun.code.circuits.errors.ConnectionError.ReceiverAlreadyConnected
-import io.ducommun.code.circuits.errors.DisconnectionError
 import io.ducommun.code.circuits.errors.DisconnectionError.NotConnected
 import io.ducommun.code.failsWithReason
 import io.ducommun.code.results.flatMap
-import io.ducommun.code.results.mapError
 import io.ducommun.code.succeeded
 import io.ducommun.code.succeedsAnd
 import org.assertj.core.api.KotlinAssertions.assertThat
@@ -44,11 +41,13 @@ class BasicComponentTest {
 
         subject.disconnect() failsWithReason NotConnected
     }
+
+    val current = SimpleCurrent(Power())
     
     @Test
     fun `apply current - can be applied when it does not currently have a current`() {
 
-        assertThat(power.connect(subject)).succeeded()
+        assertThat(subject.applyCurrent(current)).succeeded()
     }
 
     @Test
@@ -72,8 +71,8 @@ class BasicComponentTest {
     @Test
     fun `remove current - works when there is a current to remove`() {
 
-        power.connect(subject)
+        subject.applyCurrent(SimpleCurrent(Power()))
 
-        assertThat(power.disconnect()).succeeded()
+        assertThat(subject.removeCurrent()).succeeded()
     }
 }

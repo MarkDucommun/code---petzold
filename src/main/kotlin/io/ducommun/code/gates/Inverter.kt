@@ -4,6 +4,7 @@ import io.ducommun.code.circuits.*
 import io.ducommun.code.circuits.errors.ConnectionError
 import io.ducommun.code.circuits.errors.DisconnectionError
 import io.ducommun.code.results.Result
+import io.ducommun.code.results.Success
 
 class Inverter : Connectible {
 
@@ -31,8 +32,9 @@ class Inverter : Connectible {
         return electroMagnet.applyCurrent(appliedCurrent)
     }
 
-    override fun removeCurrent() {
+    override fun removeCurrent(): Result<DisconnectionError, Unit> {
         electroMagnet.removeCurrent()
+        return Success(Unit)
     }
 
     override fun powerOn() {

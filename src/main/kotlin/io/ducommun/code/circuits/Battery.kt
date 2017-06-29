@@ -34,10 +34,11 @@ class Battery : SingleVoltageSource, VoltageSink {
         return Success(Unit)
     }
 
-    override fun removeCurrent() {
+    override fun removeCurrent() : Result<DisconnectionError, Unit>{
         appliedCurrent = null
         output?.powerOff()
         current.complete = false
+        return Success(Unit)
     }
 
     override fun powerOn() {

@@ -24,18 +24,21 @@ class SimpleJoin : Join, SingleVoltageSource {
         output = other
 
         connectionOne.connect(object : Pluggable {
-            override fun applyCurrent(appliedCurrent: Current?):Result<ConnectionError, Unit> {
+            override fun applyCurrent(appliedCurrent: Current?): Result<ConnectionError, Unit> {
                 incomingCurrentOne = appliedCurrent
-                output?.applyCurrent(outgoingCurrent)
+                if (appliedCurrent != null) {
+                    output?.applyCurrent(outgoingCurrent)
+                }
                 return Success(Unit)
             }
 
-            override fun removeCurrent() {
+            override fun removeCurrent(): Result<DisconnectionError, Unit> {
                 incomingCurrentOne = null
                 if (incomingCurrentTwo == null) {
                     output?.removeCurrent()
                     powerOff()
                 }
+                return Success(Unit)
             }
 
             override fun powerOn() {
@@ -55,16 +58,19 @@ class SimpleJoin : Join, SingleVoltageSource {
         connectionTwo.connect(object : Pluggable {
             override fun applyCurrent(appliedCurrent: Current?): Result<ConnectionError, Unit> {
                 incomingCurrentTwo = appliedCurrent
-                output?.applyCurrent(outgoingCurrent)
+                if (appliedCurrent != null) {
+                    output?.applyCurrent(outgoingCurrent)
+                }
                 return Success(Unit)
             }
 
-            override fun removeCurrent() {
+            override fun removeCurrent(): Result<DisconnectionError, Unit> {
                 incomingCurrentTwo = null
                 if (incomingCurrentOne == null) {
                     output?.removeCurrent()
                     powerOff()
                 }
+                return Success(Unit)
             }
 
             override fun powerOn() {

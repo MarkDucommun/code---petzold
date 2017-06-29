@@ -3,6 +3,7 @@ package io.ducommun.code.circuits
 import io.ducommun.code.circuits.errors.ConnectionError
 import io.ducommun.code.circuits.errors.DisconnectionError
 import io.ducommun.code.results.Result
+import io.ducommun.code.results.Success
 
 class SimpleSwitchToggler(
         override var switch: MutableSwitch
@@ -32,8 +33,9 @@ class SimpleSwitchToggler(
         return electroMagnet.applyCurrent(appliedCurrent)
     }
 
-    override fun removeCurrent() {
+    override fun removeCurrent(): Result<DisconnectionError, Unit> {
         electroMagnet.disconnect()
+        return Success(Unit)
     }
 
     override val powered: Boolean get() = electroMagnet.powered
