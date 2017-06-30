@@ -10,6 +10,10 @@ class PermanentSwitch(
         override val pluggedIn: Pluggable
 ) : ImmutableReceiverSwitch {
 
+//    private val internalSwitch = SimpleSwitch()
+
+//    init { internalSwitch.connect() }
+
     val incomingConnectible: Connectible = BasicComponent()
 
     val outgoingConnectible: Connectible = BasicComponent()
@@ -37,7 +41,7 @@ class PermanentSwitch(
 
     var closedState: Boolean = closedInitially
 
-    override fun toggle(): Boolean {
+    override fun toggle(): Result<ToggleError, Unit> {
 
         if (closed) {
             incomingConnectible.disconnect()
@@ -47,7 +51,7 @@ class PermanentSwitch(
 
         closedState = !closedState
 
-        return true
+        return Success(Unit)
     }
 
     override val closed: Boolean get() = closedState

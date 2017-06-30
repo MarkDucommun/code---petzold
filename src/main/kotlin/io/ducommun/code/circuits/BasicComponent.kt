@@ -12,7 +12,8 @@ import io.ducommun.code.results.Success
 open class BasicComponent : Connectible {
 
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
-        if (output != null) return Failure(ReceiverAlreadyConnected)
+        if (output != null)
+            return Failure(ReceiverAlreadyConnected)
         output = other
         other.applyCurrent(current)
         return Success(Unit)
@@ -21,6 +22,7 @@ open class BasicComponent : Connectible {
     override fun disconnect(): Result<DisconnectionError, Unit> {
         if (output == null) return Failure(NotConnected)
         removeCurrent()
+        output = null
         return Success(Unit)
     }
 

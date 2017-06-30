@@ -79,5 +79,10 @@ class OrGateTest {
         switchOne.toggle()
 
         assertThat(bulb.powered).isFalse()
+
+        switchTwo.toggle()
+        switchOne.toggle()
+
+        assertThat(bulb.powered).isTrue()
     }
 }

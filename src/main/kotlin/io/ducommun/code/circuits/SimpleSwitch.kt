@@ -2,16 +2,19 @@ package io.ducommun.code.circuits
 
 import io.ducommun.code.circuits.errors.ConnectionError
 import io.ducommun.code.circuits.errors.DisconnectionError
-import io.ducommun.code.results.Result
-import io.ducommun.code.results.Success
+import io.ducommun.code.results.*
 
 class SimpleSwitch(closedInitially: Boolean = false) : MutableSwitch {
 
-    val incomingConnectible: Connectible = BasicComponent()
+    private val incomingConnectible: Connectible = BasicComponent()
 
-    val outgoingConnectible: Connectible = BasicComponent()
+    private val outgoingConnectible: Connectible = BasicComponent()
 
-    init { if (closedInitially) incomingConnectible.connect(outgoingConnectible) }
+    private var closedState: Boolean = closedInitially
+
+    init {
+        if (closedInitially) incomingConnectible.connect(outgoingConnectible)
+    }
 
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
         return outgoingConnectible.connect(other)
@@ -21,7 +24,7 @@ class SimpleSwitch(closedInitially: Boolean = false) : MutableSwitch {
         return outgoingConnectible.disconnect()
     }
 
-    override fun applyCurrent(appliedCurrent: Current?) : Result<ConnectionError, Unit> {
+    override fun applyCurrent(appliedCurrent: Current?): Result<ConnectionError, Unit> {
         return incomingConnectible.applyCurrent(appliedCurrent)
     }
 
@@ -38,22 +41,26 @@ class SimpleSwitch(closedInitially: Boolean = false) : MutableSwitch {
         incomingConnectible.powerOff()
     }
 
-    override val powered: Boolean get() = outgoingConnectible.powered
+    override fun toggle(): Result<ToggleError, Unit> {
 
-    var closedState: Boolean = closedInitially
 
-    override fun toggle(): Boolean {
-
-        if (closed) {
+        val result = if (closedState)
             incomingConnectible.disconnect()
-        } else {
+        else
             incomingConnectible.connect(outgoingConnectible)
-        }
 
-        closedState = !closedState
-
-        return true
+        return result
+                .map { closedState = !closedState }
+                .mapError {
+                    when (it) {
+                        is ConnectionError -> ToggleError.ConnectionError
+                        is DisconnectionError -> ToggleError.DisconnectionError
+                        else -> ToggleError.UnknownError
+                    }
+                }
     }
 
     override val closed: Boolean get() = closedState
+
+    override val powered: Boolean get() = outgoingConnectible.powered
 }
