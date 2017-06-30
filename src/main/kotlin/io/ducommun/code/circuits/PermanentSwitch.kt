@@ -3,56 +3,30 @@ package io.ducommun.code.circuits
 import io.ducommun.code.circuits.errors.ConnectionError
 import io.ducommun.code.circuits.errors.DisconnectionError
 import io.ducommun.code.results.Result
-import io.ducommun.code.results.Success
 
 class PermanentSwitch(
         closedInitially: Boolean = false,
-        override val pluggedIn: Pluggable
+        pluggedIn: Pluggable
 ) : ImmutableReceiverSwitch {
 
-//    private val internalSwitch = SimpleSwitch()
+    private val internalSwitch = SimpleSwitch(closedInitially)
 
-//    init { internalSwitch.connect() }
-
-    val incomingConnectible: Connectible = BasicComponent()
-
-    val outgoingConnectible: Connectible = BasicComponent()
-
-    init { if (closedInitially) incomingConnectible.connect(outgoingConnectible) }
-
-    override fun applyCurrent(appliedCurrent: Current?) : Result<ConnectionError, Unit> {
-        return incomingConnectible.applyCurrent(appliedCurrent)
+    init {
+        internalSwitch.connect(pluggedIn)
     }
 
-    override fun removeCurrent(): Result<DisconnectionError, Unit> {
-        incomingConnectible.removeCurrent()
-        return Success(Unit)
-    }
+    override fun applyCurrent(appliedCurrent: Current?): Result<ConnectionError, Unit> =
+            internalSwitch.applyCurrent(appliedCurrent)
 
-    override fun powerOn() {
-        incomingConnectible.powerOn()
-    }
+    override fun removeCurrent(): Result<DisconnectionError, Unit> = internalSwitch.removeCurrent()
 
-    override fun powerOff() {
-        incomingConnectible.powerOff()
-    }
+    override fun powerOn() = internalSwitch.powerOn()
 
-    override val powered: Boolean get() = outgoingConnectible.powered
+    override fun powerOff() = internalSwitch.powerOff()
 
-    var closedState: Boolean = closedInitially
+    override val powered: Boolean get() = internalSwitch.powered
 
-    override fun toggle(): Result<ToggleError, Unit> {
+    override fun toggle(): Result<ToggleError, Unit> = internalSwitch.toggle()
 
-        if (closed) {
-            incomingConnectible.disconnect()
-        } else {
-            incomingConnectible.connect(outgoingConnectible)
-        }
-
-        closedState = !closedState
-
-        return Success(Unit)
-    }
-
-    override val closed: Boolean get() = closedState
+    override val closed: Boolean get() = internalSwitch.closed
 }

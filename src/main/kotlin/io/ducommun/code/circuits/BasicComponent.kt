@@ -21,7 +21,7 @@ open class BasicComponent : Connectible {
 
     override fun disconnect(): Result<DisconnectionError, Unit> {
         if (output == null) return Failure(NotConnected)
-        removeCurrent()
+        output?.removeCurrent()
         output = null
         return Success(Unit)
     }
