@@ -5,25 +5,18 @@ import io.ducommun.code.circuits.errors.ConnectionError.PluggableAlreadyConnecte
 import io.ducommun.code.circuits.errors.ConnectionError.ReceiverAlreadyConnected
 import io.ducommun.code.circuits.errors.DisconnectionError
 import io.ducommun.code.circuits.errors.DisconnectionError.NotConnected
-import io.ducommun.code.results.Failure
-import io.ducommun.code.results.Result
-import io.ducommun.code.results.Success
+import io.ducommun.code.results.*
 
 open class BasicComponent : Connectible {
 
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
-        if (output != null)
-            return Failure(ReceiverAlreadyConnected)
+        if (output != null) return Failure(ReceiverAlreadyConnected)
         output = other
-        other.applyCurrent(current)
-        return Success(Unit)
+        return other.applyCurrent(current)
     }
 
     override fun disconnect(): Result<DisconnectionError, Unit> {
-        if (output == null) return Failure(NotConnected)
-        output?.removeCurrent()
-        output = null
-        return Success(Unit)
+        return output?.let { it.removeCurrent().map { output = null } } ?: Failure(NotConnected as DisconnectionError)
     }
 
     override fun applyCurrent(appliedCurrent: Current?): Result<ConnectionError, Unit> {
@@ -33,10 +26,13 @@ open class BasicComponent : Connectible {
     }
 
     override fun removeCurrent(): Result<DisconnectionError, Unit> {
-        current = null
-        output?.removeCurrent()
-        powerOff()
-        return Success(Unit)
+        return output
+                ?.removeCurrent()
+                ?.apply {
+                    powerOff()
+                    current = null
+                }
+                ?: Success(Unit)
     }
 
     override fun powerOn() {

@@ -43,7 +43,6 @@ class SimpleSwitch(closedInitially: Boolean = false) : MutableSwitch {
 
     override fun toggle(): Result<ToggleError, Unit> {
 
-
         val result = if (closedState)
             incomingConnectible.disconnect()
         else

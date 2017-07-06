@@ -1,56 +1,87 @@
 package io.ducommun.code.gates
 
-import io.ducommun.code.circuits.Bulb
-import io.ducommun.code.circuits.Ground
-import io.ducommun.code.circuits.Power
-import io.ducommun.code.circuits.SimpleSwitch
+import io.ducommun.code.circuits.*
 import io.ducommun.code.gates.AndGate
+import io.ducommun.code.results.flatMap
+import io.ducommun.code.succeeded
 import org.assertj.core.api.KotlinAssertions.assertThat
+import org.junit.Before
 import org.junit.Test
 
-class AndGateTest {
+class AndGateTest : BulbTest() {
+
+    val powerOne = Power()
+    val powerTwo = Power()
+
+    val switchOne = SimpleSwitch(closedInitially = false)
+    val switchTwo = SimpleSwitch(closedInitially = false)
+
+    val andGate = AndGate()
+
+    val ground = Ground()
+
+    @Before
+    fun setUp() {
+        powerOne
+                .connect(switchOne)
+                .flatMap { powerTwo.connect(switchTwo) }
+                .flatMap { switchOne.connect(andGate.connectionOne) }
+                .flatMap { switchTwo.connect(andGate.connectionTwo) }
+                .flatMap { andGate.connect(bulb) }
+                .flatMap { bulb.connect(ground) }
+                .succeeded()
+    }
+
+    @Test
+    fun `the bulb is off when neither input is powered`() {
+
+        bulbIsOff()
+    }
+
+    @Test
+    fun `the bulb is off when input one is powered`() {
+
+        switchOne.toggle().succeeded()
+
+        bulbIsOff()
+    }
+
+    @Test
+    fun `the bulb is off when input two is powered`() {
+
+        switchTwo.toggle().succeeded()
+
+        bulbIsOff()
+    }
+
+    @Test
+    fun `the bulb is powered on when both inputs are powered`() {
+
+        switchOne.toggle().succeeded()
+        switchTwo.toggle().succeeded()
+
+        bulbIsOn()
+    }
 
     @Test
     fun `the AND gate works`() {
 
-        val powerOne = Power()
-        val powerTwo = Power()
-
-        val switchOne = SimpleSwitch(closedInitially = false)
-        val switchTwo = SimpleSwitch(closedInitially = false)
-
-        val andGate = AndGate()
-
-        val bulb = Bulb()
-
-        val ground = Ground()
-
-        powerOne.connect(switchOne)
-        powerTwo.connect(switchTwo)
-
-        switchOne.connect(andGate.connectionOne)
-        switchTwo.connect(andGate.connectionTwo)
-
-        andGate.connect(bulb)
-
-        bulb.connect(ground)
-
-        assertThat(bulb.powered).isFalse()
+        bulbIsOff()
 
         switchOne.toggle()
 
-        assertThat(bulb.powered).isFalse()
+        bulbIsOff()
 
         switchTwo.toggle()
 
-        assertThat(bulb.powered).isTrue()
+        bulbIsOn()
 
         switchOne.toggle()
 
-        assertThat(bulb.powered).isFalse()
+        bulbIsOff()
 
         switchTwo.toggle()
 
-        assertThat(bulb.powered).isFalse()
+        bulbIsOff()
     }
 }

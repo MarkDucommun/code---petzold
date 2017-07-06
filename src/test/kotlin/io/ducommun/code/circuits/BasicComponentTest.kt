@@ -43,7 +43,7 @@ class BasicComponentTest {
     }
 
     val current = SimpleCurrent(Power())
-    
+
     @Test
     fun `apply current - can be applied when it does not currently have a current`() {
 
@@ -53,7 +53,9 @@ class BasicComponentTest {
     @Test
     fun `apply current - does not work when it has a current`() {
 
-        power.connect(subject).succeedsAnd { Power().connect(subject).failsWithReason(PluggableAlreadyConnected) }
+        power.connect(subject).succeeded()
+
+        Power().connect(subject).failsWithReason(PluggableAlreadyConnected)
     }
 
     @Test

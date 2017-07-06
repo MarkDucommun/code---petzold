@@ -2,18 +2,14 @@ package io.ducommun.code.circuits
 
 import io.ducommun.code.results.flatMap
 import io.ducommun.code.succeeded
-import io.ducommun.code.succeedsAnd
-import org.assertj.core.api.KotlinAssertions.assertThat
 import org.junit.Before
 import org.junit.Test
 
-class SimpleSwitchTest {
+class SimpleSwitchTest : BulbTest() {
 
     val power = Power()
 
     val subject = SimpleSwitch(closedInitially = false)
-
-    val bulb = Bulb()
 
     val ground = Ground()
 
@@ -47,7 +43,4 @@ class SimpleSwitchTest {
 
         bulbIsOff()
     }
-
-    private fun bulbIsOff() { assertThat(bulb.powered).isFalse() }
-    private fun bulbIsOn() { assertThat(bulb.powered).isTrue() }
 }

@@ -5,6 +5,7 @@ import io.ducommun.code.circuits.errors.ConnectionError
 import io.ducommun.code.circuits.errors.DisconnectionError
 import io.ducommun.code.junctions.Join
 import io.ducommun.code.results.Result
+import io.ducommun.code.results.flatMap
 
 abstract class SeriesGate(switchesInitiallyClosed: Boolean) : Join {
 
@@ -17,8 +18,7 @@ abstract class SeriesGate(switchesInitiallyClosed: Boolean) : Join {
     override val connectionTwo: Pluggable = BetterSwitchToggler(switch = switchTwo, pluggedIn = Ground())
 
     init {
-        power.connect(switchOne)
-        switchOne.connect(switchTwo)
+        power.connect(switchOne).flatMap { switchOne.connect(switchTwo) }
     }
 
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {

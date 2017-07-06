@@ -24,9 +24,9 @@ class PermanentSwitch(
 
     override fun powerOff() = internalSwitch.powerOff()
 
-    override val powered: Boolean get() = internalSwitch.powered
-
     override fun toggle(): Result<ToggleError, Unit> = internalSwitch.toggle()
+
+    override val powered: Boolean get() = internalSwitch.powered
 
     override val closed: Boolean get() = internalSwitch.closed
 }

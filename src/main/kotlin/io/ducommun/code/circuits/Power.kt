@@ -12,8 +12,7 @@ class Power : SingleVoltageSource {
     }
 
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
-        output = other
-        return other.applyCurrent(current)
+        return other.applyCurrent(current).apply { output = other }
     }
 
     override fun disconnect(): Result<DisconnectionError, Unit> {
