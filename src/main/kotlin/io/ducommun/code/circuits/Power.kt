@@ -7,10 +7,6 @@ import io.ducommun.code.results.Success
 
 class Power : SingleVoltageSource {
 
-    override fun power() {
-        output?.powerOn()
-    }
-
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
         return other.applyCurrent(current).apply { output = other }
     }

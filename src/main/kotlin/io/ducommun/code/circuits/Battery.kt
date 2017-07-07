@@ -8,10 +8,6 @@ import io.ducommun.code.results.Success
 
 class Battery : SingleVoltageSource, VoltageSink {
 
-    override fun power() {
-        output?.powerOn()
-    }
-
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
         if (output != null) return Failure(ConnectionError.ReceiverAlreadyConnected)
         other.applyCurrent(current)

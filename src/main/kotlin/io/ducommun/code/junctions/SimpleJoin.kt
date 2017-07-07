@@ -8,11 +8,6 @@ import io.ducommun.code.results.Success
 
 class SimpleJoin : Join, SingleVoltageSource {
 
-    override fun power() {
-        incomingCurrentOne?.power?.invoke()
-        incomingCurrentTwo?.power?.invoke()
-    }
-
     private val outgoingCurrent = SimpleCurrent {
         incomingCurrentOne?.power?.invoke()
         incomingCurrentTwo?.power?.invoke()

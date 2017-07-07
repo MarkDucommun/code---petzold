@@ -1,30 +1,14 @@
 package io.ducommun.code.junctions
 
-import io.ducommun.code.circuits.*
+import io.ducommun.code.circuits.Current
+import io.ducommun.code.circuits.Pluggable
+import io.ducommun.code.circuits.SimpleCurrent
 import io.ducommun.code.circuits.errors.ConnectionError
 import io.ducommun.code.circuits.errors.DisconnectionError
 import io.ducommun.code.results.Result
 import io.ducommun.code.results.Success
-import io.ducommun.collections.nonEmptyList.nonEmptyListOf
 
 class SimpleSplit : Split {
-
-    private val powerOne = object : VoltageSource {
-
-        override fun power() {
-
-            outputOne?.powerOn()
-            incomingCurrent?.power?.invoke()
-            incomingCurrent?.complete = true
-        }
-    }
-    private val powerTwo = object : VoltageSource {
-        override fun power() {
-            outputTwo?.powerOn()
-            incomingCurrent?.power?.invoke()
-            incomingCurrent?.complete = true
-        }
-    }
 
     private var incomingCurrent: Current? = null
     private var outgoingCurrentOne: Current = SimpleCurrent {
