@@ -10,7 +10,7 @@ class Ground : VoltageSink {
     override fun applyCurrent(appliedCurrent: Current?): Result<ConnectionError, Unit> {
         current = appliedCurrent
         appliedCurrent?.complete = true
-        current?.source?.power()
+        current?.power?.invoke()
         return Success(Unit)
     }
 

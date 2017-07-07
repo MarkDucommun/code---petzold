@@ -5,27 +5,40 @@ import io.ducommun.code.circuits.errors.ConnectionError
 import io.ducommun.code.circuits.errors.DisconnectionError
 import io.ducommun.code.results.Result
 import io.ducommun.code.results.Success
+import io.ducommun.collections.nonEmptyList.nonEmptyListOf
 
 class SimpleSplit : Split {
 
     private val powerOne = object : VoltageSource {
+
         override fun power() {
+
             outputOne?.powerOn()
-            incomingCurrent?.source?.power()
+            incomingCurrent?.power?.invoke()
             incomingCurrent?.complete = true
         }
     }
     private val powerTwo = object : VoltageSource {
         override fun power() {
             outputTwo?.powerOn()
-            incomingCurrent?.source?.power()
+            incomingCurrent?.power?.invoke()
             incomingCurrent?.complete = true
         }
     }
 
     private var incomingCurrent: Current? = null
-    private var outgoingCurrentOne: Current = SimpleCurrent(powerOne)
-    private var outgoingCurrentTwo: Current = SimpleCurrent(powerTwo)
+    private var outgoingCurrentOne: Current = SimpleCurrent {
+        outputOne?.powerOn()
+        incomingCurrent?.power?.invoke()
+        incomingCurrent?.complete = true
+        Success(Unit)
+    }
+    private var outgoingCurrentTwo: Current = SimpleCurrent {
+        outputTwo?.powerOn()
+        incomingCurrent?.power?.invoke()
+        incomingCurrent?.complete = true
+        Success(Unit)
+    }
 
     private var outputOne: Pluggable? = null
     private var outputTwo: Pluggable? = null

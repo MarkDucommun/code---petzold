@@ -4,6 +4,7 @@ import io.ducommun.code.circuits.errors.ConnectionError.PluggableAlreadyConnecte
 import io.ducommun.code.circuits.errors.ConnectionError.ReceiverAlreadyConnected
 import io.ducommun.code.circuits.errors.DisconnectionError.NotConnected
 import io.ducommun.code.failsWithReason
+import io.ducommun.code.results.Success
 import io.ducommun.code.results.flatMap
 import io.ducommun.code.succeeded
 import io.ducommun.code.succeedsAnd
@@ -42,7 +43,7 @@ class BasicComponentTest {
         subject.disconnect() failsWithReason NotConnected
     }
 
-    val current = SimpleCurrent(Power())
+    val current = SimpleCurrent { Success(Unit) }
 
     @Test
     fun `apply current - can be applied when it does not currently have a current`() {
@@ -65,7 +66,7 @@ class BasicComponentTest {
 
         subject.connect(other)
 
-        other.applyCurrent(SimpleCurrent(Power()))
+        other.applyCurrent(SimpleCurrent { Success(Unit)})
 
         power.connect(subject).failsWithReason(PluggableAlreadyConnected)
     }
@@ -73,7 +74,7 @@ class BasicComponentTest {
     @Test
     fun `remove current - works when there is a current to remove`() {
 
-        subject.applyCurrent(SimpleCurrent(Power()))
+        subject.applyCurrent(SimpleCurrent { Success(Unit)})
 
         assertThat(subject.removeCurrent()).succeeded()
     }

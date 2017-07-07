@@ -21,7 +21,10 @@ class Power : SingleVoltageSource {
         return Success(Unit)
     }
 
-    private val current: Current = SimpleCurrent(source = this)
+    private val current: Current = SimpleCurrent {
+        output?.powerOn()
+        Success(Unit)
+    }
 
     private var output: Pluggable? = null
 }

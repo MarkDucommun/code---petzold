@@ -34,7 +34,7 @@ class Battery : SingleVoltageSource, VoltageSink {
         return Success(Unit)
     }
 
-    override fun removeCurrent() : Result<DisconnectionError, Unit>{
+    override fun removeCurrent(): Result<DisconnectionError, Unit> {
         appliedCurrent = null
         output?.powerOff()
         current.complete = false
@@ -47,7 +47,10 @@ class Battery : SingleVoltageSource, VoltageSink {
     override fun powerOff() {
     }
 
-    var current: Current = SimpleCurrent(this)
+    var current: Current = SimpleCurrent {
+        output?.powerOn()
+        Success(Unit)
+    }
 
     var appliedCurrent: Current? = null
 
