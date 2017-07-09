@@ -13,7 +13,7 @@ import org.junit.Test
 
 class BasicComponentTest {
 
-    val power = Power()
+    val power = MutablePower()
 
     val subject = BasicComponent()
 

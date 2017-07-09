@@ -16,7 +16,9 @@ open class BasicComponent : Connectible {
     }
 
     override fun disconnect(): Result<DisconnectionError, Unit> {
-        return output?.let { it.removeCurrent().map { output = null } } ?: Failure(NotConnected as DisconnectionError)
+        return output
+                ?.let { it.removeCurrent().map { output = null } }
+                ?: Failure(NotConnected as DisconnectionError)
     }
 
     override fun applyCurrent(appliedCurrent: Current?): Result<ConnectionError, Unit> {

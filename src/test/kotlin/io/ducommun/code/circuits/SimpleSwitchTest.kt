@@ -42,5 +42,21 @@ class SimpleSwitchTest : BulbTest() {
         subject.toggle().succeeded()
 
         bulbIsOff()
+
+        subject.toggle().succeeded()
+
+        bulbIsOn()
+
+        subject.toggle().succeeded()
+
+        bulbIsOff()
+
+        subject.toggle().succeeded()
+
+        bulbIsOn()
+
+        subject.toggle().succeeded()
+
+        bulbIsOff()
     }
 }

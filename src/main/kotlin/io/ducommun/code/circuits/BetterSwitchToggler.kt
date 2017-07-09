@@ -3,37 +3,36 @@ package io.ducommun.code.circuits
 import io.ducommun.code.circuits.errors.ConnectionError
 import io.ducommun.code.circuits.errors.DisconnectionError
 import io.ducommun.code.results.Result
-import io.ducommun.code.results.Success
 
 class BetterSwitchToggler(
         override val switch: Switch,
         pluggedIn: Pluggable
 ) : ImmutableSwitchToggler {
 
-    private val electroMagnet: Connectible = BasicComponent()
+    private val electromagnet: Connectible = BasicComponent()
 
     // probably should make the constructor private
     init {
-        electroMagnet.connect(pluggedIn)
+        electromagnet.connect(pluggedIn)
     }
 
     override fun applyCurrent(appliedCurrent: Current?): Result<ConnectionError, Unit> {
-        return electroMagnet.applyCurrent(appliedCurrent)
+        return electromagnet.applyCurrent(appliedCurrent)
     }
 
     override fun removeCurrent(): Result<DisconnectionError, Unit> {
-        return electroMagnet.removeCurrent()
+        return electromagnet.removeCurrent()
     }
 
     override fun powerOn() {
         switch.toggle()
-        electroMagnet.powerOn()
+        electromagnet.powerOn()
     }
 
     override fun powerOff() {
-        electroMagnet.powerOff()
         switch.toggle()
+        electromagnet.powerOff()
     }
 
-    override val powered: Boolean get() = electroMagnet.powered
+    override val powered: Boolean get() = electromagnet.powered
 }

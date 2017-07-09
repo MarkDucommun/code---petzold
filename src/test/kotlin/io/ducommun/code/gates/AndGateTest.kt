@@ -1,10 +1,8 @@
 package io.ducommun.code.gates
 
 import io.ducommun.code.circuits.*
-import io.ducommun.code.gates.AndGate
 import io.ducommun.code.results.flatMap
 import io.ducommun.code.succeeded
-import org.assertj.core.api.KotlinAssertions.assertThat
 import org.junit.Before
 import org.junit.Test
 

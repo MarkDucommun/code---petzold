@@ -10,33 +10,33 @@ class SimpleSwitchToggler(
 ) : SwitchToggler {
 
     override fun powerOn() {
-        electroMagnet.powerOn()
+        electromagnet.powerOn()
         switch.toggle()
     }
 
     override fun powerOff() {
-        electroMagnet.powerOff()
+        electromagnet.powerOff()
         switch.toggle()
     }
 
-    var electroMagnet: Connectible = BasicComponent()
+    var electromagnet: Connectible = BasicComponent()
 
     override fun connect(other: Pluggable): Result<ConnectionError, Unit> {
-        return electroMagnet.connect(other)
+        return electromagnet.connect(other)
     }
 
     override fun disconnect(): Result<DisconnectionError, Unit> {
-        return electroMagnet.disconnect()
+        return electromagnet.disconnect()
     }
 
     override fun applyCurrent(appliedCurrent: Current?) : Result<ConnectionError, Unit> {
-        return electroMagnet.applyCurrent(appliedCurrent)
+        return electromagnet.applyCurrent(appliedCurrent)
     }
 
     override fun removeCurrent(): Result<DisconnectionError, Unit> {
-        electroMagnet.disconnect()
+        electromagnet.disconnect()
         return Success(Unit)
     }
 
-    override val powered: Boolean get() = electroMagnet.powered
+    override val powered: Boolean get() = electromagnet.powered
 }

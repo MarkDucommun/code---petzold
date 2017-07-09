@@ -36,3 +36,8 @@ fun <F : WithMessage, S> Result<F, S>.succeeded(): Unit {
 }
 
 fun <F : WithMessage, S> Assert<*, Result<F, S>>.succeeded(): Assert<*, *> = isInstanceOf(Success::class.java)!!
+
+val <F, S> Result<F, S>.get: S get() = when (this) {
+    is Success -> content
+    is Failure -> throw RuntimeException("Should have been a success")
+}
